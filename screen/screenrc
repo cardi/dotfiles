@@ -1,0 +1,7 @@
+hardstatus alwayslastline
+hardstatus string '%{Wb} %-Lw%{+b}%50>%n%f* %t%{-}%+Lw%< %-= [%H]%{-}'
+termcapinfo xterm|xterms|xs|rxvt ti@:te@
+escape ^Yy          # escape command is Ctrl-Y
+startup_message off # disable startup message
+defscrollback 32000 # large scrollback buffer
+defutf8 on          # UTF-8 enabled
