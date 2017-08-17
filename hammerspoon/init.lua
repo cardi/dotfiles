@@ -37,6 +37,35 @@ hs.hotkey.bind({"cmd", "shift"}, "K", function()
   end
 end)
 
+-- 50% height (no movement)
+hs.hotkey.bind({"cmd", "alt", "shift"}, "K", function()
+  local win = hs.window.focusedWindow()
+
+  if win then
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+
+    f.h = max.h / 2
+    win:setFrame(f)
+  end
+end)
+
+-- 50% height, bottom half
+hs.hotkey.bind({"cmd", "alt", "shift"}, "J", function()
+  local win = hs.window.focusedWindow()
+
+  if win then
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+
+    f.y = max.y + (max.h / 2)
+    f.h = max.h / 2
+    win:setFrame(f)
+  end
+end)
+
 -- 100% width, bottom half
 hs.hotkey.bind({"cmd", "shift"}, "J", function()
   local win = hs.window.focusedWindow()
