@@ -1,0 +1,6 @@
+style "font"
+{
+  font_name = "Helvetica Neue 16"
+}
+widget_class "*" style "font"
+gtk-font-name = "Helvetica Neue 16"
