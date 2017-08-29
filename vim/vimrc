@@ -2,6 +2,7 @@ syntax enable           " enable syntax highlighting
 set expandtab           " tabs are spaces
 set ts=2                " tabstop is 2 (default 8)
 set sw=2                " shiftwidth is 2 (default 8)
+set tw=72               " textwidth is 72
 set modeline            " follow modes set in a file (possible security issue)
 set modelines=5         " sometimes need this for mac
 set ignorecase          " ignore case in search
@@ -18,11 +19,14 @@ augroup END
 " signature for documents
 :inoremap <F2> ---calvin <C-R>=strftime("%Y-%m-%d")<CR>
 " having the date is useful
+" (e.g., `:w <F3>` to write to a file of today's date
 :inoremap <F3> <C-R>=strftime("%Y-%m-%d")<CR>
+:cnoremap <F3> <C-R>=strftime("%Y-%m-%d")<CR>
 " call common compiling utilities
 :noremap <F7> :!pdflatex %<CR>
 :noremap <F8> :!make<CR>
 
+" save and load manual folds
 autocmd BufWinLeave *.* mkview
 autocmd BufWinEnter *.* silent loadview 
 
