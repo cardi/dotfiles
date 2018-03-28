@@ -222,7 +222,7 @@ end)
 local osVersion = hs.host.operatingSystemVersion()
 if(osVersion["major"] == 10 and osVersion["minor"] < 13) then
   -- we'll keep the keyboard shortcut consistent
-  hs.hotkey.bind({"ctrl", "shift"}, "Q", function()
+  hs.hotkey.bind({"ctrl", "cmd"}, "Q", function()
     -- lockscreen.m: https://gist.github.com/cardi/3e2b527a2ec819d51916604528986e93
     os.execute("/path/to/lockscreen")
   end)
