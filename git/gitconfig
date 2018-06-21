@@ -33,3 +33,6 @@
     
     # Show files ignored by git:
     ign = ls-files -o -i --exclude-standard
+[user]
+    email = calvin@isi.edu
+    name = Calvin Ardi
