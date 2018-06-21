@@ -217,14 +217,13 @@ hs.hotkey.bind({"alt", "shift"}, "Return", function()
   end
 end)
 
--- lock screen
--- only macOS high sierra has a built-in lock screen
+-- lock screen: macOS >= 10.13 (high sierra) has a built-in lock screen
 local osVersion = hs.host.operatingSystemVersion()
 if(osVersion["major"] == 10 and osVersion["minor"] < 13) then
   -- we'll keep the keyboard shortcut consistent
   hs.hotkey.bind({"ctrl", "cmd"}, "Q", function()
     -- lockscreen.m: https://gist.github.com/cardi/3e2b527a2ec819d51916604528986e93
-    os.execute("/path/to/lockscreen")
+    os.execute("~/u/scripts/lockscreen")
   end)
 end
 
