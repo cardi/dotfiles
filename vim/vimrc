@@ -17,6 +17,7 @@ augroup markdown
 augroup END
 
 " signature for documents
+:noremap <F2> ---calvin <C-R>=strftime("%Y-%m-%d")<CR>
 :inoremap <F2> ---calvin <C-R>=strftime("%Y-%m-%d")<CR>
 " having the date is useful
 " (e.g., `:w <F3>` to write to a file of today's date
@@ -41,3 +42,8 @@ function! TwiddleCase(str)
   return result
 endfunction
 vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
+
+set cursorline
+:hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+:hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+:nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
