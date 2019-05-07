@@ -227,4 +227,86 @@ if(osVersion["major"] == 10 and osVersion["minor"] < 13) then
   end)
 end
 
+-- TODO separate wifi into its own component
+-- https://stackoverflow.com/questions/44559759/can-i-separate-init-lua-to-different-components-in-hammerspoon#44560895
+-- https://apple.stackexchange.com/a/284671/292485
+
+wifiMenu = hs.menubar.newWithPriority(2147483645)
+wifiMenu:setTitle("")
+wifiWatcher = nil
+lastNetwork = ""
+
+-- WIP: creates an item with a dropdown in the menu bar indicating
+-- the wifi network currently connected to, if using wifi. The dropdown
+-- will show which IPv{4,6} addresses are assigned to the interface
+--
+-- TODO support for VPNs, multiple interfaces, etc.
+-- TODO am i on wifi or ethernet? which is prioritized? https://stackoverflow.com/a/39474846
+--
+function updateWifiMenuTitle()
+  -- print("something changed: wifi? " .. hs.wifi.currentNetwork())
+  print(hs.wifi.interfaceDetails())
+  local wifiName = hs.wifi.currentNetwork()
+  if wifiName ~= lastNetwork and wifiName ~= nil then
+    wifiMenu:setTitle("wifi: " .. wifiName)
+  end
+
+  if wifiName == nil then
+    wifiMenu:setTitle("wifi: off")
+  end
+
+  local interfaces = hs.network.interfaces()
+  v4, v6 = hs.network.primaryInterfaces()
+
+  wifiMenuDropdown = {
+     { title = "IPv4: " .. hs.network.interfaceDetails(v4)["IPv4"]["Addresses"][1], checked = v4 ~= nil , disabled = true }
+   , { title = "-" }
+   , { title = "IPv6: " .. hs.network.interfaceDetails(v4)["IPv6"]["Addresses"][1], checked = v6 ~= nil , disabled = true }
+  }
+
+  -- wifiMenuDropdown = {
+  --    { title = "IPv4: " .. hs.network.addresses()[v4], checked = v4 ~= nil , disabled = true }
+  --  , { title = "-" }
+  --  , { title = "IPv6", checked = v6 ~= nil , disabled = true }
+  -- }
+
+  -- * for each interface:
+    -- * ipv4/ipv6 address
+    -- * router
+    -- * am i tunneled? via wg?
+  --wifiMenuDropdown = {
+  --   { title = "hi" }
+  -- , { title = "-" }
+  -- , { title = "disabled item", checked = true, disabled = true }
+  --}
+
+  -- external IP: dig +short myip.opendns.com @resolver1.opendns.com
+  -- http://www.hammerspoon.org/docs/hs.html#execute
+  wifiMenu:setMenu(wifiMenuDropdown)
+
+  lastNetwork = wifiName
+end
+
+wifiWatcher = hs.wifi.watcher.new(updateWifiMenuTitle)
+wifiWatcher:watchingFor({"SSIDChange", "linkChange", "powerChange"})
+wifiWatcher:start()
+updateWifiMenuTitle()
+
+function dump(o)
+   if type(o) == 'table' then
+      local s = '{ '
+      for k,v in pairs(o) do
+         if type(k) ~= 'number' then k = '"'..k..'"' end
+         s = s .. '['..k..'] = ' .. dump(v) .. ','
+      end
+      return s .. '} '
+   else
+      return tostring(o)
+   end
+end
+
+-- XXX debugg
+--print(wifiWatcher)
+--print(dump(hs.wifi.interfaceDetails()))
+
 -- vim: set expandtab ts=2 sw=2:
