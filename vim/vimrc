@@ -7,6 +7,8 @@ set modeline            " follow modes set in a file (possible security issue)
 set modelines=5         " sometimes need this for mac
 set ignorecase          " ignore case in search
 set smartcase           " case-insensitive search if all lowercase
+set autoindent          " interactive indenting
+set fo+=2n              " :help fo-table (recognize numbered lists)
 
 " use Markdown syntax for .md files
 augroup markdown        
@@ -24,8 +26,11 @@ augroup END
 :inoremap <F3> <C-R>=strftime("%Y-%m-%d")<CR>
 :cnoremap <F3> <C-R>=strftime("%Y-%m-%d")<CR>
 " call common compiling utilities
+":noremap <F6> :!python %<CR>
+:noremap <F6> :!%:p<CR>
 :noremap <F7> :!pdflatex %<CR>
 :noremap <F8> :!make<CR>
+:noremap <F9> :!tablign<CR>
 
 " save and load manual folds
 autocmd BufWinLeave *.* mkview
@@ -47,3 +52,5 @@ set cursorline
 :hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 :hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 :nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+
+:set rtp+=/opt/local/share/fzf/vim
