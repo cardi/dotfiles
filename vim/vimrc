@@ -1,7 +1,7 @@
 syntax enable           " enable syntax highlighting
 set expandtab           " tabs are spaces
-set ts=2                " tabstop is 2 (default 8)
-set sw=2                " shiftwidth is 2 (default 8)
+set ts=4                " tabstop is 4 (default 8)
+set sw=4                " shiftwidth is 4 (default 8)
 set tw=72               " textwidth is 72
 set modeline            " follow modes set in a file (possible security issue)
 set modelines=5         " sometimes need this for mac
@@ -9,14 +9,28 @@ set ignorecase          " ignore case in search
 set smartcase           " case-insensitive search if all lowercase
 set autoindent          " interactive indenting
 set fo+=2n              " :help fo-table (recognize numbered lists)
+"set spell              " enable spell check as we go
+set autochdir           " change working directory when we switch tabs
 
 " use Markdown syntax for .md files
-augroup markdown        
-    " remove previous autocmds
-    autocmd!
-    " set every new or read *.md buffer to use the markdown filetype 
-    autocmd BufRead,BufNew *.md set filetype=markdown
-augroup END
+autocmd BufRead,BufNew *.md set filetype=markdown
+
+" fold region for headings
+au FileType markdown syn region mkdHeaderFold
+    \ start="^\s*\z(#\+\)"
+    \ skip="^\s*\z1#\+"
+    \ end="^\(\s*#\)\@="
+    \ fold contains=TOP
+
+" fold region for lists
+"au FileType markdown syn region mkdListFold
+"    \ start="^\z(\s*\)\*\z(\s*\)"
+"    \ skip="^\z1 \z2\s*[^#]"
+"    \ end="^\(.\)\@="
+"    \ fold contains=TOP
+"
+au FileType markdown syn sync fromstart
+au FileType markdown setlocal foldmethod=syntax
 
 " signature for documents
 :noremap <F2> ---calvin <C-R>=strftime("%Y-%m-%d")<CR>
@@ -34,7 +48,7 @@ augroup END
 
 " save and load manual folds
 autocmd BufWinLeave *.* mkview
-autocmd BufWinEnter *.* silent loadview 
+autocmd BufWinEnter *.* silent loadview
 
 function! TwiddleCase(str)
   if a:str ==# toupper(a:str)
@@ -52,5 +66,12 @@ set cursorline
 :hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 :hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 :nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+
+" highlight extra whitespaces at the end
+:highlight ExtraWhitespace ctermbg=red guibg=red
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
 
 :set rtp+=/opt/local/share/fzf/vim
