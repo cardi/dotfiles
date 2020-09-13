@@ -14,6 +14,9 @@ hs.hotkey.bind({"cmd", "alt", "shift"}, "P", function()
     local screen = win:screen()
     local max = screen:frame()
 
+    -- 1280x800 for chrome store screenshots
+    --f.w = 1280
+    --f.h = 800
     f.w = 1100
     f.h = 768
     win:setFrame(f)
