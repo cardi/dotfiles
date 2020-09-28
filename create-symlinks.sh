@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
-DOTFILES=$HOME/dotfiles
+# requires port:coreutils
+DOTFILES=$(dirname $(greadlink -f $0))
 
 # TODO if the dotfiles exist, move them to a backup location
-
-# hammerspoon
-ln -s $DOTFILES/hammerspoon ~/.hammerspoon
-
-# ssh
-ln -s $DOTFILES/ssh ~/.ssh
+ln -s $DOTFILES/git/gitconfig        ~/.gitconfig
+ln -s $DOTFILES/git/gitignore_global ~/.gitignore_global
+ln -s $DOTFILES/hammerspoon          ~/.hammerspoon
+ln -s $DOTFILES/screen/screenrc      ~/.screenrc
+ln -s $DOTFILES/vim/vimrc            ~/.vimrc
