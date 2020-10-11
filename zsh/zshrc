@@ -1,0 +1,92 @@
+# autoload: http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html
+# > With the -U flag, alias expansion is suppressed when the function is loaded.
+# >
+# > The flags -z and -k mark the function to be autoloaded using the zsh or ksh
+# > style, as if the option KSH_AUTOLOAD were unset or were set, respectively.
+# > The flags override the setting of the option at the time the function is
+# > loaded.
+
+
+# makes color constants available
+autoload -Uz colors
+colors
+
+# enable colored output from ls, etc. on FreeBSD-based systems
+export CLICOLOR=1
+
+
+# initialize Completion System and prompt
+# http://zsh.sourceforge.net/Doc/Release/Completion-System.html
+autoload -Uz compinit promptinit
+compinit
+promptinit
+
+# view available prompts with `prompt -p`
+#prompt restore
+
+
+# keybindings
+bindkey -v 	# vi mode
+
+bindkey "^A" beginning-of-line
+bindkey "^E" end-of-line
+bindkey "^K" kill-line
+bindkey "^R" history-incremental-search-backward
+bindkey "^P" history-search-backward
+bindkey "^Y" accept-and-hold
+bindkey "^N" insert-last-word
+bindkey "^Q" push-line-or-edit
+
+
+# history stuff
+HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
+HISTSIZE=50000
+SAVEHIST=10000
+
+setopt extended_history # save timestamp + duration to file
+setopt hist_expire_dups_first # oldest history event w/ dupe deleted first
+setopt hist_ignore_dups # do not store events if its a dupe of previous
+setopt hist_ignore_space # if first char is a space, remove
+setopt hist_verify # if entry contains history expansion, perform expansion and reload line
+setopt inc_append_history # add to $HISTFILE incrementally
+setopt share_history # imports new commands from history + append to history
+
+
+# cursor mode: https://thevaluable.dev/zsh-install-configure/
+cursor_mode() {
+    # See https://ttssh2.osdn.jp/manual/4/en/usage/tips/vim.html for cursor shapes
+    cursor_block='\e[2 q'
+    cursor_beam='\e[6 q'
+
+    function zle-keymap-select {
+        if [[ ${KEYMAP} == vicmd ]] ||
+            [[ $1 = 'block' ]]; then
+            #echo -ne $cursor_block
+            echo -ne $cursor_beam
+        elif [[ ${KEYMAP} == main ]] ||
+            [[ ${KEYMAP} == viins ]] ||
+            [[ ${KEYMAP} = '' ]] ||
+            [[ $1 = 'beam' ]]; then
+            echo -ne $cursor_block
+        fi
+    }
+
+    zle-line-init() {
+        #echo -ne $cursor_beam
+        echo -ne $cursor_block
+    }
+
+    zle -N zle-keymap-select
+    zle -N zle-line-init
+}
+
+cursor_mode
+
+
+# prompt stuff
+setopt prompt_subst
+PROMPT=$'%F{white}%~%B%F{blue}$%f%b '
+
+GIT_PROMPT_SH=$(dirname $(readlink ${(%):-%N}))
+source ${GIT_PROMPT_SH}/git-prompt.sh
+export RPROMPT=[$'$(__git_ps1 "%s")']

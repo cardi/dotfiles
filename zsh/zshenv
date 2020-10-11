@@ -1,0 +1,14 @@
+# ignore /etc/{zshenv,zprofile} -- macOS loads `path_helper` which
+# messes up the ordering of our paths.
+unsetopt GLOBAL_RCS
+
+# keep only the first occurrence of each duplicated value
+typeset -U path PATH
+
+path=(/{opt,usr}/local/{,s}bin $path)
+path=($path $HOME/Library/Python/3.8/bin)
+export PATH
+
+# vi-mode on the command-line
+export VISUAL=vim
+export EDITOR=$VISUAL
