@@ -316,37 +316,63 @@ end
 -- A global variable for the Hyper Mode
 hyper = hs.hotkey.modal.new({}, 'F17')
 
-hyper:bind({}, 'F10', function()
-  output = hs.audiodevice.defaultOutputDevice()
-  output:setMuted(not(output:muted()))
-	hs.alert.closeAll(0.0)
-	if output:muted() then
-		hs.alert.show("Volume: Muted", 0.5)
-	else
-		hs.alert.show("Volume: Unmuted", 0.5)
-	end
-  hyper.triggered = true
-end)
+-- hyper:bind({}, 'F10', function()
+--   output = hs.audiodevice.defaultOutputDevice()
+--   output:setMuted(not(output:muted()))
+-- 	hs.alert.closeAll(0.0)
+-- 	if output:muted() then
+-- 		hs.alert.show("Volume: Muted", 0.5)
+-- 	else
+-- 		hs.alert.show("Volume: Unmuted", 0.5)
+-- 	end
+--   hyper.triggered = true
+-- end)
+--
+-- -- need to remap F11 to something like ctrl+shift+alt+cmd-F11
+-- -- in keyboard shortcuts
+--
+-- function changeVolume(delta)
+-- 	local output = hs.audiodevice.defaultOutputDevice()
+-- 	local volume = math.floor(output:volume() + delta)
+-- 	output:setVolume(volume)
+-- 	hs.alert.closeAll(0.0)
+-- 	hs.alert.show("Volume: " .. math.floor(output:volume()) .. "%", 0.5)
+-- end
+--
+-- hyper:bind({}, 'F11', function()
+-- 	changeVolume(-10)
+--   hyper.triggered = true
+-- end)
+--
+-- -- https://gist.github.com/spinscale/fd82f00da29447990f27f36b3f4b927d
+-- hyper:bind({}, 'F12', function()
+-- 	changeVolume(10)
+--   hyper.triggered = true
+-- end)
 
--- need to remap F11 to something like ctrl+shift+alt+cmd-F11
--- in keyboard shortcuts
 
-function changeVolume(delta)
-	local output = hs.audiodevice.defaultOutputDevice()
-	local volume = math.floor(output:volume() + delta)
-	output:setVolume(volume)
-	hs.alert.closeAll(0.0)
-	hs.alert.show("Volume: " .. math.floor(output:volume()) .. "%", 0.5)
+-- source: <https://gist.github.com/atdt/b723f0eb9e3254533b316d363ee74eb0>
+local function sendSystemKey(key)
+    hs.eventtap.event.newSystemKeyEvent(key, true):post()
+    hs.eventtap.event.newSystemKeyEvent(key, false):post()
 end
 
-hyper:bind({}, 'F11', function()
-	changeVolume(-10)
+local volume = {
+    up   = function() sendSystemKey("SOUND_UP") end,
+    down = function() sendSystemKey("SOUND_DOWN") end,
+    mute = function() sendSystemKey("MUTE") end,
+}
+
+hyper:bind({}, 'F10', function()
+  volume.mute()
   hyper.triggered = true
 end)
-
--- https://gist.github.com/spinscale/fd82f00da29447990f27f36b3f4b927d
+hyper:bind({}, 'F11', function()
+  volume.down()
+  hyper.triggered = true
+end)
 hyper:bind({}, 'F12', function()
-	changeVolume(10)
+  volume.up()
   hyper.triggered = true
 end)
 
@@ -453,7 +479,7 @@ function showKeyPress(tap_event)
   end
 
   -- actually show the popup
-  hs.alert.show(modifiers .. character, duration)
+  hs.alert.show(modifiers .. character .. " " .. tap_event:getKeyCode(), duration)
 
 end
 
