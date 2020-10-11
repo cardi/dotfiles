@@ -9,3 +9,6 @@ ln -s $DOTFILES/git/gitignore_global ~/.gitignore_global
 ln -s $DOTFILES/hammerspoon          ~/.hammerspoon
 ln -s $DOTFILES/screen/screenrc      ~/.screenrc
 ln -s $DOTFILES/vim/vimrc            ~/.vimrc
+
+ln -s $DOTFILES/zsh/zshrc            ~/.zshrc
+ln -s $DOTFILES/zsh/zshenv           ~/.zshenv
