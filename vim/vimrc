@@ -12,6 +12,10 @@ set fo+=2n              " :help fo-table (recognize numbered lists)
 "set spell              " enable spell check as we go
 set autochdir           " change working directory when we switch tabs
 
+" https://vi.stackexchange.com/questions/2162/why-doesnt-the-backspace-key-work-in-insert-mode
+set nocompatible
+set backspace=indent,eol,start
+
 " use Markdown syntax for .md files
 autocmd BufRead,BufNew *.md set filetype=markdown
 
