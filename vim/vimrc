@@ -71,6 +71,8 @@ set flp+=\\\|^\\*\\s*
 " (e.g., `:w <F3>` to write to a file of today's date
 :inoremap <F3> <C-R>=strftime("%Y-%m-%d")<CR>
 :cnoremap <F3> <C-R>=strftime("%Y-%m-%d")<CR>
+:inoremap <F4> <C-R>=strftime("%Y-%m-%dT%H:%M:%S")<CR>
+:cnoremap <F4> <C-R>=strftime("%Y-%m-%dT%H:%M:%S")<CR>
 " call common compiling utilities
 ":noremap <F6> :!python %<CR>
 :noremap <F6> :!%:p<CR>
