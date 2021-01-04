@@ -56,7 +56,8 @@ pref("general.config.obscure_value", 0);
 EOF
 
 # firefox.cfg
-
+#
+# Some more controls: <https://gist.github.com/0XDE57/fbd302cef7693e62c769>
 cat <<-EOF > "${FIREFOX_DIR}/firefox.cfg"
 // IMPORTANT: Start your code on the 2nd line
 // disable config warning
@@ -76,4 +77,75 @@ pref("dom.forms.autocomplete.formautofill", false);
 pref("extensions.formautofill.addresses.enabled", false);
 pref("extensions.formautofill.addresses.usage.hasEntry", false);
 pref("extensions.formautofill.creditCards.enabled", false);
+// disable pocket?
+pref("extensions.pocket.enabled", false);
+pref("browser.newtabpage.activity-stream.section.highlights.includePocket", false);
+pref("extensions.pocket.site", "");
+pref("extensions.pocket.oAuthConsumerKey", "");
+pref("extensions.pocket.api", "");
+// disable firefox sync
+pref("identity.fxaccounts.enabled", false);
+// disable activity stream
+pref("browser.library.activity-stream.enabled", false);
+// disable browser default check
+pref("browser.shell.checkDefaultBrowser", false);
+// disable search suggestions
+pref("browser.urlbar.update1.interventions", false);
+pref("browser.search.suggest.enabled", false);
+
+// disable "Recommend Features as you Browse" / Extensions
+pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", false);
+pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false);
+pref("extensions.htmlaboutaddons.recommendations.enabled", false);
+
+pref("geo.enabled", false);
+pref("geo.wifi.uri", "");
+pref("browser.search.geoip.url", "");
+
+pref("plugins.enumerable_names", "");
+
+// disable captive portal
+pref("network.captive-portal-service.enabled", false);
+
+// disable safe browsing
+pref("browser.safebrowsing.enabled", false);
+pref("browser.safebrowsing.phishing.enabled", false);
+pref("browser.safebrowsing.malware.enabled", false);
+pref("browser.safebrowsing.downloads.enabled", false);
+
+// disable web push notifications
+pref("dom.webnotifications.enabled", false);
+pref("dom.webnotifications.serviceworker.enabled", false);
+pref("dom.push.connection.enabled", false);
+pref("dom.push.enabled", false);
+
+// disable telemetry
+pref("devtools.onboarding.telemetry.logged", false);
+pref("toolkit.telemetry.updatePing.enabled", false);
+pref("browser.newtabpage.activity-stream.feeds.telemetry", false);
+pref("browser.newtabpage.activity-stream.telemetry", false);
+pref("browser.ping-centre.telemetry", false);
+pref("toolkit.telemetry.bhrPing.enabled", false);
+pref("toolkit.telemetry.enabled", false);
+pref("toolkit.telemetry.firstShutdownPing.enabled", false);
+pref("toolkit.telemetry.hybridContent.enabled", false);
+pref("toolkit.telemetry.newProfilePing.enabled", false);
+pref("toolkit.telemetry.reportingpolicy.firstRun", false);
+pref("toolkit.telemetry.shutdownPingSender.enabled", false);
+pref("toolkit.telemetry.unified", false);
+pref("toolkit.telemetry.updatePing.enabled", false);
+pref("toolkit.telemetry.reportingpolicy.firstRun", false);
+pref("toolkit.telemetry.unified", false);
+pref("toolkit.telemetry.archive.enabled", false);
+pref("devtools.onboarding.telemetry.logged", false);
+pref("toolkit.telemetry.bhrPing.enabled", false);
+pref("datareporting.healthreport.uploadEnabled", false);
+pref("datareporting.policy.dataSubmissionEnabled", false);
+pref("datareporting.sessions.current.clean", true);
+pref("datareporting.healthreport.uploadEnabled", false);
+pref("datareporting.policy.dataSubmissionEnabled", false);
+pref("datareporting.sessions.current.clean", true);
+
+// disable firefox studies
+pref("app.shield.optoutstudies.enabled", false);
 EOF
