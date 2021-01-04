@@ -18,6 +18,15 @@ set backspace=indent,eol,start
 
 " use Markdown syntax for .md files
 autocmd BufRead,BufNew *.md set filetype=markdown
+" vim thinks lines starting with '* ' is the middle of a multi-line C
+" comment--when wordwrapping a list item starting with '* ', vim will
+" insert an asterisk at the beginning of every line. change the setting
+" so vim doesn't do that.
+" https://stackoverflow.com/questions/4782462/how-can-you-get-vim-to-wrap-bulleted-text-with-indentation
+autocmd BufRead,BufNew *.md set comments+=fb:-,fb:*
+autocmd BufRead,BufNew *.md set comments+=b:>
+
+""set comments+=b:>
 
 " fold region for headings
 au FileType markdown syn region mkdHeaderFold
@@ -35,6 +44,25 @@ au FileType markdown syn region mkdHeaderFold
 "
 au FileType markdown syn sync fromstart
 au FileType markdown setlocal foldmethod=syntax
+
+function! s:ChangeFormatOption()
+    if &filetype == 'markdown'
+        if getline(line('.')) =~ '^>'
+          setlocal formatoptions+=c
+        else
+          " Do not automatically insert bullets when auto-wrapping with text-width
+          setlocal formatoptions-=c
+        endif
+    endif
+endfunction
+
+augroup MkdFormatOption
+    autocmd!
+    autocmd CursorMovedI *.md call s:ChangeFormatOption()
+augroup END
+
+set flp+=\\\|^\\*\\s*
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " signature for documents
 :noremap <F2> ---calvin <C-R>=strftime("%Y-%m-%d")<CR>
