@@ -85,7 +85,7 @@ cursor_mode
 
 # prompt stuff
 setopt prompt_subst
-PROMPT=$'%F{white}%~%B%F{blue}$%f%b '
+PROMPT=$'%F{white}%~%B%F{blue}%#%f%b '
 
 GIT_PROMPT_SH=$(dirname $(readlink ${(%):-%N}))
 source ${GIT_PROMPT_SH}/git-prompt.sh
