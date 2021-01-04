@@ -90,3 +90,8 @@ PROMPT=$'%F{white}%~%B%F{blue}%#%f%b '
 GIT_PROMPT_SH=$(dirname $(readlink ${(%):-%N}))
 source ${GIT_PROMPT_SH}/git-prompt.sh
 export RPROMPT=$'$(__git_ps1 "%s")'
+
+# aliases
+alias todo='vim ~/n/TODO-$(hostname -s).md'
+alias vt='vim $(date +%Y-%m-%d).md'
+alias qmv='qmv -ospaces'
