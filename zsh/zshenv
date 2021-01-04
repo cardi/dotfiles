@@ -9,6 +9,9 @@ path=(/{opt,usr}/local/{,s}bin $path)
 path=($path $HOME/Library/Python/3.8/bin)
 export PATH
 
+fpath=(/opt/local/share/zsh-completions $fpath)
+export FPATH
+
 # vi-mode on the command-line
 export VISUAL=vim
 export EDITOR=$VISUAL
