@@ -89,4 +89,4 @@ PROMPT=$'%F{white}%~%B%F{blue}$%f%b '
 
 GIT_PROMPT_SH=$(dirname $(readlink ${(%):-%N}))
 source ${GIT_PROMPT_SH}/git-prompt.sh
-export RPROMPT=[$'$(__git_ps1 "%s")']
+export RPROMPT=$'$(__git_ps1 "%s")'
