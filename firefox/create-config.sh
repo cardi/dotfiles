@@ -148,4 +148,29 @@ pref("datareporting.sessions.current.clean", true);
 
 // disable firefox studies
 pref("app.shield.optoutstudies.enabled", false);
+
+// enable userContent.css and userChrome.css
+pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+
+// remove vpn promotion
+pref("browser.privatebrowsing.vpnpromourl", "");
 EOF
+
+# remove mozilla-branded private browsing home page
+
+## get all firefox profile directories
+readarray -d '' PROFILES < <(gfind "${HOME}/Library/Application Support/Firefox/Profiles/" -maxdepth 1 -type d -iname "*default*" -print0)
+
+## for each profile, append a CSS snippet to userContent.css
+## that blanks out the page at about:privatebrowsing
+for PROFILE in "${PROFILES[@]}"; do
+  echo "creating ${PROFILE}/chrome"
+  mkdir -p "${PROFILE}/chrome"
+
+  echo "creating userContent.css"
+  cat <<-EOF > "${PROFILE}/chrome/userContent.css"
+@-moz-document url("about:privatebrowsing") {
+    body { display: none !important; }
+}
+EOF
+done
