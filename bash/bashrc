@@ -1,0 +1,32 @@
+alias ls='ls --color=auto -F'
+
+export EDITOR=vim
+
+source /usr/share/bash-completion/bash_completion
+source /usr/share/git-core/contrib/completion/git-prompt.sh
+PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
+
+# don't put duplicate lines in the history. See bash(1) for more options
+# don't overwrite GNU Midnight Commander's setting of `ignorespace'.
+HISTCONTROL=$HISTCONTROL${HISTCONTROL+:}ignoredups
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+export HISTSIZE=4000
+export HISTFILESIZE=
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# <https://superuser.com/a/424588>
+if [ -S "$SSH_AUTH_SOCK" ] && [ ! -h "$SSH_AUTH_SOCK" ]; then
+    ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+fi
+export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+
+export PATH=${HOME}/.local/bin:${PATH}
