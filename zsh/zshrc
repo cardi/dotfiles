@@ -35,6 +35,7 @@ bindkey "^R" history-incremental-search-backward
 bindkey "^P" history-search-backward
 bindkey "^Y" accept-and-hold
 bindkey "^N" insert-last-word
+bindkey "^[." insert-last-word # Alt-.
 bindkey "^Q" push-line-or-edit
 bindkey "\e." insert-last-word # just like bash
 
@@ -100,3 +101,7 @@ alias qmv='qmv -ospaces'
 # fzf keybindings
 [ -f /opt/local/share/fzf/shell/key-bindings.zsh ] && source /opt/local/share/fzf/shell/key-bindings.zsh
 [ -f /opt/local/share/fzf/shell/completion.zsh ] && source /opt/local/share/fzf/shell/completion.zsh
+
+autoload -Uz copy-earlier-word
+zle -N copy-earlier-word
+bindkey "^[m" copy-earlier-word
