@@ -234,7 +234,7 @@ end
 -- https://stackoverflow.com/questions/44559759/can-i-separate-init-lua-to-different-components-in-hammerspoon#44560895
 -- https://apple.stackexchange.com/a/284671/292485
 
-wifiMenu = hs.menubar.newWithPriority(2147483645)
+wifiMenu = hs.menubar.new(true, 'wifi ssid')
 wifiMenu:setTitle("")
 wifiWatcher = nil
 lastNetwork = ""
