@@ -1,5 +1,6 @@
 hardstatus alwayslastline
-hardstatus string '%{Wb} %-Lw%{+b}%50>%n%f* %t%{-}%+Lw%< %-= [%H]%{-}'
+hardstatus string '%{7;4} %-Lw%{+7;4b}%50>%n%f %t%{-}%+Lw%< %-= [%H]%{-}'
+#hardstatus string '%{2;4}%n%=%{7;4}%-w%{=b1;4}%n %{=b7;4}%t%{7;4}%+w%=%{2;4}%n'
 
 # use the mouse scroll wheel, but doesn't work if we use 'hardstatus'
 #termcapinfo xterm*|xterms|xs|rxvt ti@:te@
